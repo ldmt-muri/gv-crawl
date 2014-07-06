@@ -1,6 +1,0 @@
-2014-07-05.23-48-27. cp ../../gv-crawl/Makefile .
-2014-07-05.23-48-55. vim Makefile 
-2014-07-05.23-49-07. mv ../docs/swahili.txt README
-2014-07-05.23-49-35. vim README 
-2014-07-05.23-49-42. vim ../../gv-crawl/README
-2014-07-05.23-49-50. cp ../../gv-crawl/README muri-splits.txt
