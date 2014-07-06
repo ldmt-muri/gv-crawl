@@ -67,7 +67,8 @@ class WarcWriter(object):
         self.warc_fp = warc.open(self.warc_fname, 'w')
 
     def open(self, spider):
-        self.file_n = spider.state.get('warc_n_start', 0)
+        #self.file_n = spider.state.get('warc_n_start', 0)
+        self.file_n=os.getpid()
         log.msg('Loading state: %d' % self.file_n)
 
         # Create a new warc.gz file

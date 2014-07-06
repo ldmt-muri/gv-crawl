@@ -1,0 +1,29 @@
+# this is for a fast crawl of a single language and its translations
+
+mkdir -p crawl-sw
+
+# get swahili seeds
+curl http://sw.globalvoicesonline.org/feed/ | python ../gv-crawl/make_seeds.py > crawl-sw/seeds.txt
+
+#depth 0 = no depth limit
+python ../gv-crawl/crawler.py crawl-sw/seeds.txt crawl-sw --depth 0 --delay 1 2> crawl-sw/crawl.log
+
+# make database of swahili articles
+rm -f articles.db
+python ../gv-crawl/warc2db.py ./crawl-sw/scrapy.*.warc.gz articles.db
+#  Processing ./crawl-sw/scrapy.1.warc.gz
+#  Records processed: 842 (0 errors => 842 inserted)
+
+
+# get list of English translations
+python ../gv-crawl/get-en-urls.py en sw articles.db > crawl-sw/trans.txt
+
+# crawl English translations
+python ../gv-crawl/crawler.py crawl-sw/trans.txt crawl-sw --depth 1 --delay 1 2> crawl-sw/trans-crawl.log
+
+# clear the db so that both the Swahili and English translations can be put back into it
+rm -f articles.db
+
+# rebuild the DB from the crawls and align
+make
+
